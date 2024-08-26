@@ -20,7 +20,7 @@ spring:
       password: Zhangkuoyuan1230-9
   redis:
     host: 101.33.242.250
-    port: 6379
+    port: 6666
     password: 20020329@redis
 mybatis-plus:
   configuration:

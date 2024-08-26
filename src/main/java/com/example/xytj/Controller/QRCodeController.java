@@ -8,12 +8,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Base64;
 
 
 /**
@@ -31,15 +36,23 @@ public class QRCodeController {
 
     @ApiOperation("生成二维码并将其返回给前端调用者")
     @GetMapping("/generate")
-    public Result<String> generate(HttpServletResponse servletResponse, HttpServletRequest request){
-        try {
-            String token = request.getHeader("Authorization");
-            QRCodeUtil.createCodeToOutputStream(token,servletResponse.getOutputStream());
+    public Result<String> generate(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
 
+        FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+        try {
+            BufferedImage image = QRCodeUtil.getBufferedImage(token);
+            try {
+                ImageIO.write(image,"png",os);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }catch (Exception e){
             return Result.error("出现错误");
         }
-        return Result.success("二维码生成成功");
+        String base64 = "data:image/png;base64,";
+        String encode = Base64.getEncoder().encodeToString(os.toByteArray());
+        return Result.success(base64 + encode);
     }
 
     @ApiOperation("解析二维码")

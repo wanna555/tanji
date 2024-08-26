@@ -102,8 +102,8 @@ public class UserController {
         JSONObject rawDataJson = JSON.parseObject(rawData);
         JSONObject SessionKeyOpenId = WechatUtil.getSessionKeyOrOpenId(code);
 
-//        String openid = SessionKeyOpenId.getString("openid");
-        String openid = "oiWR25NgWG9WoO7j2T1SS5EJuQDA";
+        String openid = SessionKeyOpenId.getString("openid");
+//        String openid = "oiWR25NgWG9WoO7j2T1SS5EJuQDA";
         String sessionKey = SessionKeyOpenId.getString("session_key");
 
         String signature2 = DigestUtils.sha1Hex(rawData + sessionKey);

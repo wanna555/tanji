@@ -91,7 +91,7 @@ public class QRCodeUtil {
     }
 
     //核心代码-生成二维码
-    private static BufferedImage getBufferedImage(String content) throws WriterException {
+    public static BufferedImage getBufferedImage(String content) throws WriterException {
 
         //com.google.zxing.EncodeHintType：编码提示类型,枚举类型
         Map<EncodeHintType, Object> hints = new HashMap();

@@ -3,6 +3,7 @@ package com.example.xytj.Controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.xytj.Service.AdminService;
+import com.example.xytj.Service.ServiceImpl.AdminServiceImpl;
 import com.example.xytj.common.Result;
 import com.example.xytj.pojo.Admin;
 import io.swagger.annotations.Api;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @title EmployeeController
+ * @title AdminController
  * @Author: ZKY
  * @CreateTime: 2023-03-01  21:19
  */
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @CrossOrigin
 public class AdminController {
     @Autowired
-    private AdminService adminService;
+    private AdminService adminService = new AdminServiceImpl() ;
 
     @ApiOperation("后台登录")
     @PostMapping("/login")
